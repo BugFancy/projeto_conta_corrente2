@@ -45,6 +45,60 @@ def criar_conta_corrente(numero, usuario):
     contas.append({'numero': numero, 'saldo': 0, 'limite': 500, 'extrato': "", 'numeros_saques': 0, 'LIMITES_SAQUES': 3, 'usuario': usuario})
     return "Conta corrente criada com sucesso!"
 
+def criar_usuario(nome, cpf, endereco):
+    usuarios = []
+    for user in usuarios:
+        if user['cpf'] == cpf:
+            return "Já existe um usuário com esse CPF."
+    usuarios.append({'nome': nome, 'cpf': cpf, 'endereco': endereco})
+    return "Usuário criado com sucesso."
+
+def criar_conta_corrente(numero, usuario):
+    contas_correntes = []
+    for conta in contas_correntes:
+        if conta['numero'] == numero:
+            return "Já existe uma conta corrente com esse número."
+    contas_correntes.append({'numero': numero, 'usuario': usuario, 'saldo': 0.0, 'extrato': ""})
+    return "Conta corrente criada com sucesso."
+
+def depositar(numero_conta, valor):
+    for conta in contas_correntes:
+        if conta['numero'] == numero_conta:
+            conta['saldo'] += valor
+            conta['extrato'] += f"Depósito: R${valor:.2f}\n"
+            return "Depósito realizado com sucesso."
+    return "Conta corrente não encontrada."
+
+def sacar(numero_conta, valor):
+    for conta in contas_correntes:
+        if conta['numero'] == numero_conta:
+            if conta['saldo'] < valor:
+                return "Saldo insuficiente."
+            conta['saldo'] -= valor
+            conta['extrato'] += f"Saque: R${valor:.2f}\n"
+            return "Saque realizado com sucesso."
+    return "Conta corrente não encontrada."
+
+def ver_extrato(numero_conta):
+    for conta in contas_correntes:
+        if conta['numero'] == numero_conta:
+            if not conta['extrato']:
+                return "Não há movimentações na conta."
+            return conta['extrato']
+    return "Conta corrente não encontrada."
+
+def ver_saldo(numero_conta):
+    for conta in contas_correntes:
+        if conta['numero'] == numero_conta:
+            return f"Saldo: R${conta['saldo']:.2f}"
+    return "Conta corrente não encontrada."
+
+usuario1 = criar_usuario("João Silva", "123.456.789-00", "Rua das Flores, 123")
+print(usuario1)
+
+conta1 = criar_conta_corrente("0001-1", usuario1)
+print(conta1)
+
 
 class ContaBancaria:
     def __init__(self, nome_titular, numero_conta, saldo = 0.0):
